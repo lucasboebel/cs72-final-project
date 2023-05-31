@@ -58,7 +58,7 @@ a = lr_clf.score(test_features, test_labels)
 print(f'model score: {a}')
 
 predictions = lr_clf.predict(test_features)
-print(classification_report(predictions, test_labels))
+print(classification_report(test_labels, predictions))
 
 
 # testing out our model on some haikus
