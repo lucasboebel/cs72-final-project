@@ -7,6 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn.dummy import DummyClassifier
+from sklearn.metrics import classification_report
 import torch
 import transformers as ppb
 import warnings
@@ -55,6 +56,10 @@ lr_clf.fit(train_features, train_labels)
 
 a = lr_clf.score(test_features, test_labels)
 print(f'model score: {a}')
+
+predictions = lr_clf.predict(test_features)
+print(classification_report(predictions, test_labels))
+
 
 # testing out our model on some haikus
 haiku1 = "teardrops stain pages / heartbreak's ink on love's story / healing begins now"
