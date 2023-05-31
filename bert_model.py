@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn.dummy import DummyClassifier
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 import torch
 import transformers as ppb
 import warnings
@@ -60,6 +60,9 @@ print(f'model score: {a}')
 predictions = lr_clf.predict(test_features)
 print(classification_report(test_labels, predictions))
 
+cf_matrix = confusion_matrix(test_labels, predictions)
+print('confusion matrix', cf_matrix)
+
 
 # testing out our model on some haikus
 haiku1 = "teardrops stain pages / heartbreak's ink on love's story / healing begins now"
@@ -74,6 +77,7 @@ new_input_ids2 = torch.tensor(tokenizer.encode(haiku2, add_special_tokens=True))
 new_outputs2 = model(new_input_ids2)
 new_last_hidden_states2 = [new_outputs2[0].detach().numpy()[0][0]]
 haiku2_predictions = lr_clf.predict_proba(new_last_hidden_states2)
+
 
 print(f'Haiku 1: {haiku1}\nLikelihood of being written by ChatGPT: {haiku1_predictions[0]}\nLikelihood of being written by a human: {haiku1_predictions[1]}')
 print(f'Haiku 2: {haiku2}\nLikelihood of being written by ChatGPT: {haiku2_predictions[0]}\nLikelihood of being written by a human: {haiku2_predictions[1]}')
