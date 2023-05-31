@@ -63,23 +63,43 @@ print(classification_report(test_labels, predictions))
 cf_matrix = confusion_matrix(test_labels, predictions)
 print('confusion matrix', cf_matrix)
 
-
 # testing out our model on some haikus
-haiku1 = "teardrops stain pages / heartbreak's ink on love's story / healing begins now"
-haiku2 = "White sands on the beach / And pink petals off a branch / Drifting in the wind"
+# haiku1 = "teardrops stain pages / heartbreak's ink on love's story / healing begins now"
+# haiku2 = "white sands on the beach / and pink petals off a branch / drifting in the wind"
 
-new_input_ids1 = torch.tensor(tokenizer.encode(haiku1, add_special_tokens=True)).unsqueeze(0)
-new_outputs1 = model(new_input_ids1)
-new_last_hidden_states1 = [new_outputs1[0].detach().numpy()[0][0]]
-haiku1_predictions = lr_clf.predict_proba(new_last_hidden_states1)
+# new_input_ids1 = torch.tensor(tokenizer.encode(haiku1, add_special_tokens=True)).unsqueeze(0)
+# new_outputs1 = model(new_input_ids1)
+# new_last_hidden_states1 = [new_outputs1[0].detach().numpy()[0][0]]
+# haiku1_predictions = lr_clf.predict_proba(new_last_hidden_states1)
 
-new_input_ids2 = torch.tensor(tokenizer.encode(haiku2, add_special_tokens=True)).unsqueeze(0)
-new_outputs2 = model(new_input_ids2)
-new_last_hidden_states2 = [new_outputs2[0].detach().numpy()[0][0]]
-haiku2_predictions = lr_clf.predict_proba(new_last_hidden_states2)
+# new_input_ids2 = torch.tensor(tokenizer.encode(haiku2, add_special_tokens=True)).unsqueeze(0)
+# new_outputs2 = model(new_input_ids2)
+# new_last_hidden_states2 = [new_outputs2[0].detach().numpy()[0][0]]
+# haiku2_predictions = lr_clf.predict_proba(new_last_hidden_states2)
 
+# print(f'Haiku 1: {haiku1}\nLikelihood of being written by ChatGPT: {haiku1_predictions[0]}\nLikelihood of being written by a human: {haiku1_predictions[1]}')
+# print(f'Haiku 2: {haiku2}\nLikelihood of being written by ChatGPT: {haiku2_predictions[0]}\nLikelihood of being written by a human: {haiku2_predictions[1]}')
 
-print(f'Haiku 1: {haiku1}\nLikelihood of being written by ChatGPT: {haiku1_predictions[0]}\nLikelihood of being written by a human: {haiku1_predictions[1]}')
-print(f'Haiku 2: {haiku2}\nLikelihood of being written by ChatGPT: {haiku2_predictions[0]}\nLikelihood of being written by a human: {haiku2_predictions[1]}')
+# print(f'Haiku 1: {haiku1}')
+# print(f'Likelihood of ChatGPT/human authorship: {haiku1_predictions}')
+# print(f'Haiku 2: {haiku2}')
+# print(f'Likelihood of ChatGPT/human authorship: {haiku2_predictions}')
+# print(f'Haiku 2: {haiku2}\nLikelihood of being written by ChatGPT: {haiku2_predictions[0]}\nLikelihood of being written by a human: {haiku2_predictions[1]}')
+
+strings = ["teardrops stain pages / heartbreak's ink on love's story / healing begins now", "white sands on the beach / and pink petals off a branch / drifting in the wind"]
+labels = [1, 0]
+for i in range(len(strings)):
+  new_input_ids = torch.tensor(tokenizer.encode(strings[i], add_special_tokens=True)).unsqueeze(0)
+  new_outputs = model(new_input_ids)
+  new_last_hidden_states = [new_outputs[0].detach().numpy()[0][0]]
+  predictions = lr_clf.predict_proba(new_last_hidden_states)
+  prediction = 0
+  if (predictions[0][0] < 0.5):
+    prediction = 1
+  print('haiku:', strings[i])
+  print('predicted label', prediction)
+  print('prediction confidence:', predictions[0][prediction])
+  print('actual label', labels[i])
+  print("-----")
 
 print('finished')
