@@ -24,7 +24,7 @@ warnings.filterwarnings("ignore")
 
 # import df1
 df1 = pd.read_csv(
-    "./gpt4_haikus.csv", delimiter="$", header=None, names=["haiku", "AI"]
+    "./gpt4_haikus2.csv", delimiter="$", header=None, names=["haiku", "AI"]
 )
 
 # import df2
