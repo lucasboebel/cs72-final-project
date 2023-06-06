@@ -105,7 +105,7 @@ for i in range(len(strings)):
     print("actual label", labels[i])
     print("-----")
 
-print('----------- calculated to minimize false positives ------------ \n')
+print('----------- calculated to minimize false positives ------------')
 fp_threshold = 0.99583240
 # run the model again, this time with a higher threshold, to minimize false positives
 test_probabilities = lr_clf.predict_proba(test_features)
