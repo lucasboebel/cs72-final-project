@@ -105,8 +105,9 @@ for i in range(len(strings)):
     print("actual label", labels[i])
     print("-----")
 
-print('----------- calculated to minimize false positives \n ------------ \n')
-# run the model again, this time with a threshold of 0.9973052, to minimize false positives
+print('----------- calculated to minimize false positives ------------ \n')
+fp_threshold = 0.99583240
+# run the model again, this time with a higher threshold, to minimize false positives
 test_probabilities = lr_clf.predict_proba(test_features)
 test_predictions2 = []
 max_fp_probability = 0
@@ -115,7 +116,7 @@ test_labels_arr = list(test_labels) # convert so we can index into it
 for i in range(len(test_probabilities)):
     prediction = 0
     probability_ai = test_probabilities[i][1]
-    if (probability_ai >= 0.9973052):
+    if (probability_ai >= fp_threshold):
         prediction = 1
     
     # identify maximum false positive confidence
@@ -131,7 +132,7 @@ cf_matrix = confusion_matrix(test_labels, test_predictions2)
 print('confusion matrix:', cf_matrix)
 print('----')
 
-print('--------Testing sample haikus with 0.9958324 threshold----------')
+print('--------Testing sample haikus with',fp_threshold,' threshold----------')
 
 for i in range(len(strings)):
     new_input_ids = torch.tensor(
@@ -141,7 +142,7 @@ for i in range(len(strings)):
     new_last_hidden_states = [new_outputs[0].detach().numpy()[0][0]]
     predictions = lr_clf.predict_proba(new_last_hidden_states)
     prediction = 0
-    if predictions[0][1] >= 0.9958324:
+    if predictions[0][1] >= fp_threshold:
         prediction = 1
     print("haiku:", strings[i])
     print("predicted label", prediction)
