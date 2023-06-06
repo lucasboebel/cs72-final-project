@@ -11,11 +11,18 @@ import warnings
 # Ben Barris (benjamin.f.barris.25@dartmouth.edu),
 # Lucas Boebel (lucas.j.boebel.23@dartmouth.edu),
 # Jacob Donoghue (jacob.l.donoghue.22@dartmouth.edu)
-# Last modification: 2023/06/03
+# Last modification: 2023/06/06
 
 # Scaffolding from:
 # Rolando Coto-Solano (Rolando.A.Coto.Solano@dartmouth.edu)
 # Dartmouth College, LING48/CS72, Spring 2023
+# Description: This program trains a DistilBERT model to classify haikus as AI or human-generated
+# Input: 2 csv files, lines.csv containing human-generated haikus scraped from r-haikus subreddit,
+# and gpt4_haikus2.csv containing GPT4-generated haikus. Both files contain labels, delimited from the haikus
+# themselves by a '$' symbol
+# Ouput: Model performance statistics after fine-tuned twice, once to maximize accuracy, the other to 
+# minimize false positives. Also gives some example classifications on external data, along with 
+# confidence scores.
 
 warnings.filterwarnings("ignore")
 
